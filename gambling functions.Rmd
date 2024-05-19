@@ -1,0 +1,94 @@
+---
+title: "GAMBLING..................."
+author: "andyl"
+output: html_document
+---
+
+```{r}
+#function that returns the expected value of a bet
+expected_value = function(or1, or2, stake) {
+  
+  
+  p1 = 1 / or1
+  p2 = 1 / or2
+  
+  payout1 = stake * or1  
+  payout2 = stake * or2  
+  
+  
+  ev1 = (p1 * payout1) - ((1 - p1) * stake)
+  ev2 = (p2 * payout2) - ((1 - p2) * stake)
+  
+  # Print results
+  cat("The betting company believes that the probability of team 1 winning is:", p1, ", the expected value of this stake is:", ev1, "given a stake of $", stake, '\n','\n')
+  
+  
+  cat("The betting company believes that the probability of team 2 winning is:", p2, ", the expected value of this stake is:", ev2, "given a stake of $", stake, '\n')
+}
+
+bayesian_expected_value = function(or1, or2, stake, likelihood1, likelihood2) {
+  
+ 
+  prior1 = 1 / or1
+  prior2 = 1 / or2
+  
+  
+  likelihood_sum = likelihood1 + likelihood2
+  likelihood1 = likelihood1 / likelihood_sum
+  likelihood2 = likelihood2 / likelihood_sum
+  
+  # Compute posterior probabilities 
+  posterior1 = (likelihood1 * prior1) / (likelihood1 * prior1 + likelihood2 * prior2)
+  posterior2 = (likelihood2 * prior2) / (likelihood1 * prior1 + likelihood2 * prior2)
+  
+  # Calculate payouts
+  payout1 = stake * or1  # Total payout for team 1 winning
+  payout2 = stake * or2  # Total payout for team 2 winning
+  
+  # Calculate expected values
+  ev1 = (posterior1 * payout1) - ((1 - posterior1) * stake)
+  ev2 = (posterior2 * payout2) - ((1 - posterior2) * stake)
+  
+  
+  cat("Based on my given likelihood estimations using Bayesian inference, the probability of team 1 winning is:", posterior1, ", the expected value of this stake is:", ev1, "given a stake of $", stake, '\n','\n')
+  
+  
+  cat("Based on my given likelihood estimations using Bayesian inference, the probability of team 2 winning is:", posterior2, ", the expected value of this stake is:", ev2, "given a stake of $", stake, '\n')
+}
+
+```
+
+
+```{r}
+
+#match 1 
+
+expected_value(1.6,2.2,1000)
+
+```
+
+```{r}
+
+bayesian_expected_value(1.6,2.2, 1000, 0.4, 0.6)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
